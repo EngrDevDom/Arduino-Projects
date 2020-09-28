@@ -1,6 +1,7 @@
 /*-----( Import needed libraries )-----*/
 /*-----( Declare Constants and Pin Numbers )-----*/
 #define led 13  // built-in LED
+
 /*-----( Declare objects )-----*/
 /*-----( Declare Variables )-----*/
 int ByteReceived;
@@ -9,7 +10,7 @@ void setup()   /****** SETUP: RUNS ONCE ******/
 {
   Serial.begin(9600);  
   Serial.println("--- Start Serial Monitor SEND_RCVE ---");
-    Serial.println(" Type in Box above, . ");
+  Serial.println(" Type in Box above, . ");
   Serial.println("(Decimal)(Hex)(Character)");  
   Serial.println(); 
 }
