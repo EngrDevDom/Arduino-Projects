@@ -3,16 +3,23 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const int trigPin = 9;
-const int echoPin = 10;
+const int trigPin = 2;
+const int echoPin = 3;
 
 long duration;
 int distanceCM, distanceInch;
+
+int ledA = 8;
+int ledB = 9;
+int ledC = 10;
 
 void setup() {
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+
+  pinMode(ledA, OUTPUT);
+  pinMode(ledB, OUTPUT);
 
   lcd.init();
   lcd.begin(16, 2);
@@ -44,5 +51,23 @@ void loop() {
   lcd.print(distanceInch);
   lcd.print(" inch");
   delay(10);
+
+
+  // Main functionality
+  if (distanceCM == 11 || distanceInch == 4) {
+    digitalWrite(ledA, LOW);
+    digitalWrite(ledB, HIGH);
+    digitalWrite(ledC, LOW);
+  }
+  else if (distanceCM > 11 || distanceInch > 4){
+    digitalWrite(ledA, LOW);
+    digitalWrite(ledB, LOW);
+    digitalWrite(ledC, HIGH);
+  }
+  else {
+    digitalWrite(ledA, HIGH);
+    digitalWrite(ledB, LOW);
+    digitalWrite(ledC, LOW);
+  }
 
 }

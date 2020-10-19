@@ -16,10 +16,9 @@ int Ytotal = 0;
 int Y_Pos = 0;
 
 // Initialize led pins
-int ledA = 8;
-int ledB = 9;
-int ledC = 10;
-int ledD = 11;
+int ledA = 2;
+int ledB = 3;
+int ledC = 4;
 
 void Smoother(int x_pin, int y_pin) {
   
@@ -49,7 +48,6 @@ void setup() {
   pinMode(ledA, OUTPUT);
   pinMode(ledB, OUTPUT);
   pinMode(ledC, OUTPUT);
-  pinMode(ledD, OUTPUT);
 
   for (int i = 0; i < MaxReadings; i++) {
     Xreadings[i] = 0;
@@ -60,7 +58,6 @@ void setup() {
   digitalWrite(ledA, LOW);
   digitalWrite(ledB, LOW);
   digitalWrite(ledC, LOW);
-  digitalWrite(ledD, LOW);
   
 }
 
@@ -73,21 +70,27 @@ void loop() {
   Serial.print("VRy: ");
   Serial.println(Y_Pos);
   Serial.println("____________________________________________________________");
-  delay(50);
+  delay(10);
 
 
   // Conditions
-  if (X_Pos == 501 && Y_Pos == 981 || Y_Pos == 982) {
+  if (X_Pos == 505 && Y_Pos == 523) {
     digitalWrite(ledA, HIGH);
+    digitalWrite(ledB, LOW);
+    digitalWrite(ledC, LOW);
+    delay(10);
   }
-  else if (X_Pos == 501 && Y_Pos == 0) {
-    digitalWrite(ledC, HIGH);
-  }
-  else if (X_Pos == 0 && Y_Pos == 466) {
-    digitalWrite(ledD, HIGH);
-  }
-  else if (X_Pos == 981 || X_Pos == 982 && Y_Pos == 466) {
+  else if (X_Pos == 53 && Y_Pos == 0) {
+    digitalWrite(ledA, LOW);
     digitalWrite(ledB, HIGH);
+    digitalWrite(ledC, LOW);
+    delay(10);
+  }
+  else if (X_Pos == 985 && Y_Pos == 1023) {
+    digitalWrite(ledA, LOW);
+    digitalWrite(ledB, LOW);
+    digitalWrite(ledC, HIGH);
+    delay(10);
   }
 
 }
