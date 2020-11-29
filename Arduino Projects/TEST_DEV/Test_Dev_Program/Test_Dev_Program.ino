@@ -34,8 +34,14 @@ float Current = 0;
 float Power = 0;
 
 
-int ledF = 6;   // LED for FAILED
-int ledP = 7;   // LED for PASS
+// Initialize LED pins for each Tests
+int ledA = 6;   // PINS CHECK
+int ledB = 7;   // RESISTANCE
+int ledC = 8;   // VOLTAGE
+int ledD = 9;   // CURRENT
+int ledE = 10;  // POWER
+int ledP = 11;  // LED if all PASS
+int ledF = 12;  // LED if all FAILED
 
 
 String SWBin;
@@ -61,15 +67,23 @@ void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(9600);
 
+
   // ANALOG INPUT PINS
   pinMode(tempPin, INPUT);
   pinMode(PotPin, INPUT);
   pinMode(ResPin, INPUT);
   pinMode(PhotoResPin, INPUT);
+
   
   // DIGITAL OUTPUT PINS
+  pinMode(ledA, OUTPUT);
+  pinMode(ledB, OUTPUT);
+  pinMode(ledC, OUTPUT);
+  pinMode(ledD, OUTPUT);
+  pinMode(ledE, OUTPUT);
   pinMode(ledF, OUTPUT);
   pinMode(ledP, OUTPUT);
+
 
   Serial.println();
   Serial.println("\t/*======================================================================*/");
@@ -87,7 +101,6 @@ void setup() {
 
 
   // SHOW THE RESULTS
-
   Serial.println("\n\t/*======================================================================*/");
   Serial.print("\n\t\tSW Bin#:\t");
   Serial.print(SWBin);
@@ -109,6 +122,7 @@ void loop() {
   /* TEST 0000 -> PINS CHECK */
   // Pin PULL-UP
 
+  digitalWrite(ledA, HIGH);
   delay(500);
   
 // -------------------------------------------------------------------------------------------------
@@ -127,12 +141,10 @@ void loop() {
     // Temp Condition
     if (tempC > -25.05 && tempC < 30.25) {
       evalTemp = "P";
-      digitalWrite(ledP, HIGH);
-      digitalWrite(ledF, LOW); 
+      digitalWrite(ledB, HIGH); 
     } else {
       evalTemp = "F";
-      digitalWrite(ledP, LOW);
-      digitalWrite(ledF, HIGH);
+      digitalWrite(ledB, LOW);
     }
   
 // -------------------------------------------------------------------------------------------------
@@ -151,6 +163,9 @@ void loop() {
   Serial.println(Rc);             // Show value
   Rd = analogRead(PhotoResPin);   // Read A3
   Serial.println(Rd);             // Show value
+
+  digitalWrite(ledC, HIGH);
+  delay(500);
   
 // -------------------------------------------------------------------------------------------------
 
@@ -159,7 +174,7 @@ void loop() {
   // From the measured value of Temperature, convert it to an equivalent multiplied to a factor
   // to obtain a variable with mV/C ratio.
   // 5V supply to each components
-  // (V)
+// (V)
   Va = tempC * 10.0;    // Voltage calculated based on specs sheet
   
 // -------------------------------------------------------------------------------------------------
@@ -169,28 +184,44 @@ void loop() {
   // From 5V supply voltage
   // I1 + I2 + I3 + I4 = Itotal (mA)
 
-  
+  digitalWrite(ledD, HIGH);
+  delay(500);
+
+
 // -------------------------------------------------------------------------------------------------
 
   /*  TEST# 0101 -> POWER RATING TEST */
   
   // Measure each components power rating.
   // P = IV (Watts)
+
+  digitalWrite(ledE, HIGH);
+  delay(500);
   
 // -------------------------------------------------------------------------------------------------
 
   // RESULTS CONDITION
-  
+
   // if all tests is PASS; LedP = HIGH
   // SWBin#: 1
   // HWBin#: 1
   // else; LedF = HIGH
   // SWBin#: 8
   // HWBin#: 8
+
+  if (ledA == HIGH || ledB == HIGH || ledC == HIGH || ledD == HIGH || ledE == HIGH) {
+    digitalWrite(ledP, HIGH);
+    digitalWrite(ledF, LOW);
+  }
+  else {
+    digitalWrite(ledP, LOW);
+    digitalWrite(ledF, HIGH);
+  }
   
 // -------------------------------------------------------------------------------------------------
 
   Serial.println(" ");
+  delay(500);
   
 // ******************************************** END ***********************************************
   
