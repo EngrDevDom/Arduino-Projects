@@ -16,19 +16,15 @@ void Num_Write(int);
 
 void setup() {
   // set pin modes
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
+  for (int i=2; i<9; i++) {
+    pinMode(i, OUTPUT); 
+  }
 }
 
 void loop() {
   // counter loop
   for (int counter=10; counter>0; --counter) {
-    delay(250);
+    delay(500);
     Num_Write(counter-1);
   }
 }
@@ -40,4 +36,5 @@ void Num_Write(int number) {
     digitalWrite(pin, num_array[number][j]);
     pin++;
   }
+  delay(500);
 }
